@@ -21,30 +21,26 @@ public class Copier {
         StringBuilder builder = new StringBuilder();
         builder.append("java -jar copier.jar -i c:/in -o d:/out -f namePrefix -e .docx -z true").append("\n");
         builder.append("Examples : ").append("\n");
-        builder.append("1. To copy every thing : java -jar copier.jar -i c:/in -o d:/out").append("\n");
-        builder.append("2. To copy every thing and zip final folder structure : java -jar copier.jar -i c:/in -o d:/out -z true").append("\n");
-        builder.append("3. To copy only .docx files : java -jar copier.jar -i c:/in -o d:/out -e .docx").append("\n");
-        builder.append("4. To copy only .docx files that starts with numbers : java -jar copier.jar -i c:/in -o d:/out -f '\\\\d+' -e .docx").append("\n");
+        builder.append("1. To copy every thing : java -jar Utils.jar -i c:/in -o d:/out").append("\n");
+        builder.append("2. To copy every thing and zip final folder structure : java -jar Utils.jar -i c:/in -o d:/out -z true").append("\n");
+        builder.append("3. To copy only .docx files : java -jar Utils.jar -i c:/in -o d:/out -e .docx").append("\n");
+        builder.append("4. To copy only .docx files that starts with numbers : java -jar Utils.jar -i c:/in -o d:/out -f '\\\\d+' -e .docx").append("\n");
         commandHelp = builder.toString();
     }
 
     public static void main(String[] args) throws IOException, ParseException {
         Copier copier = new Copier();
-        String [] testargs = {"-i", "/Users/rajanpunchouty/MyDocs/tmp/in", "-o", "/Users/rajanpunchouty/MyDocs/tmp/out", "-e", ".docx"};
+//        String [] testargs = {"-i", "/Users/rajanpunchouty/MyDocs/tmp/in", "-o", "/Users/rajanpunchouty/MyDocs/tmp/out", "-e", ".docx"};
         boolean isValid = copier.processAndValidateArguments(args);
         if(isValid) {
+            System.out.println("Copying files....");
             copier.copyFolder();
+            System.out.println("Zipping files.....");
+            ZipDirectory.zip(copier.outputFolder.getAbsolutePath());
         }
         else {
             System.out.println("Invalid Arguments");
         }
-
-
-//        File sourceFolder = new File("c:\\temp");
-//
-//        File destinationFolder = new File("c:\\tempNew");
-//
-//        copyFolder(sourceFolder, destinationFolder);
     }
 
     private boolean processAndValidateArguments(String[] args) throws ParseException, IOException {
