@@ -24,13 +24,13 @@ public class Copier {
         builder.append("1. To copy every thing : java -jar Utils.jar -i c:/in -o d:/out").append("\n");
         builder.append("2. To copy every thing and zip final folder structure : java -jar Utils.jar -i c:/in -o d:/out -z true").append("\n");
         builder.append("3. To copy only .docx files : java -jar Utils.jar -i c:/in -o d:/out -e .docx").append("\n");
-        builder.append("4. To copy only .docx files that starts with numbers : java -jar Utils.jar -i c:/in -o d:/out -f '\\\\d+' -e .docx").append("\n");
+        builder.append("4. To copy only .docx files that starts with numbers : java -jar Utils.jar -i c:/in -o d:/out -f '[0-9]+\\\\.docx'").append("\n");
         commandHelp = builder.toString();
     }
 
     public static void main(String[] args) throws IOException, ParseException {
         Copier copier = new Copier();
-//        String [] testargs = {"-i", "/Users/rajanpunchouty/MyDocs/tmp/in", "-o", "/Users/rajanpunchouty/MyDocs/tmp/out", "-e", ".docx"};
+//        String [] testargs = {"-i", "/Users/rajanpunchouty/MyDocs/tmp/in", "-o", "/Users/rajanpunchouty/MyDocs/tmp/out", "-f", "[0-9]+\\.docx"};
         boolean isValid = copier.processAndValidateArguments(args);
         if(isValid) {
             System.out.println("Copying files....");
@@ -153,6 +153,9 @@ public class Copier {
                     Files.copy(inputFolder.toPath(), outputFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     System.out.println("File copied :: " + outputFolder);
                 } else if(fileNamePattern.equals("*") && fileName.endsWith(fileExtensionPattern)) {
+                    Files.copy(inputFolder.toPath(), outputFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    System.out.println("File copied :: " + outputFolder);
+                } else if(fileName.matches(fileNamePattern) && fileExtensionPattern.equals("*")) {
                     Files.copy(inputFolder.toPath(), outputFolder.toPath(), StandardCopyOption.REPLACE_EXISTING);
                     System.out.println("File copied :: " + outputFolder);
                 } else if(fileName.matches(fileNamePattern) && fileName.endsWith(fileExtensionPattern)) {
