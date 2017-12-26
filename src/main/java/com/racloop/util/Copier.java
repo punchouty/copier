@@ -31,7 +31,7 @@ public class Copier {
     public static void main(String[] args) throws IOException, ParseException {
         Copier copier = new Copier();
         String [] testargs = {"-i", "/Users/rajanpunchouty/MyDocs/tmp/in", "-o", "/Users/rajanpunchouty/MyDocs/tmp/out", "-e", ".docx"};
-        boolean isValid = copier.processAndValidateArguments(testargs);
+        boolean isValid = copier.processAndValidateArguments(args);
         if(isValid) {
             copier.copyFolder();
         }
